@@ -78,3 +78,9 @@ body {
   .account-heading {
     font-size: 2.5rem;
   }
+
+
+  .right-align{
+    margin-left: auto;
+    margin-right: 0;
+  }

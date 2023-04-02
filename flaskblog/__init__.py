@@ -8,9 +8,10 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '5ef9e49a4ece37050f2aefeea1a965c3'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db' 
 db = SQLAlchemy(app)
-bcrpyt = Bcrypt(app)
+bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
-
+login_manager.login_view = 'login'
+login_manager.login_message_category = 'info'
 
 from flaskblog import routes
 
