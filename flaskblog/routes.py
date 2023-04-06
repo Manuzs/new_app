@@ -1,25 +1,23 @@
-from flask import render_template, url_for, flash, redirect, request
+import os
+import secrets
+from PIL import Image
+from flask import render_template, url_for, flash, redirect, request, abort
 from flaskblog import app, db, bcrypt
-from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm
+from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from flaskblog.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
-import secrets
-import os
-from PIL import Image
-
-
-data = [
-    {"name": "Ranjit","age": 22,"emp":'TCS', "address": "Abad"},
-    {"name": "asmf","age": 32, "emp": "AWS","address": "Abad"},
-    {"name": "dsasit","age": 12, "emp": "Google", "address": "Abad"}
-    ]
-
+import random
 
 
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html', posts = data)
+    posts = Post.query.all()
+    print(posts)
+    print(type(posts))
+    return [type(posts)]
+    return posts
+    return render_template('home.html', posts = posts)
 
 
 @app.route("/about")
@@ -99,3 +97,61 @@ def account():
         form.email.data = current_user.email
     image_file = url_for('static', filename = 'profile_pics/' + current_user.image_file)
     return render_template('account.html', title = 'Account', image_file = image_file, form  = form)
+
+
+@app.route("/post/new", methods = ['GET', 'POST'])
+@login_required
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(title = form.title.data, content = form.content.data, author = current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Post created', 'success')
+        return redirect(url_for('home'))
+    return render_template('create_post.html', title = "New Post", form = form)
+
+
+
+@app.route("/random", methods = ['GET', 'POST'])
+def random1():
+    
+    mdict=[{"title":"Maggie","Time":10,"Ingredients":"noodle, water, maggie masala","Receipe":"boil water and put ingredients"},
+           {"title":"Jeera rice","Time":20,"Ingredients":"Jeera, rice, water","Receipe":"fry jeera in some oil and put soaked rice in it. Then put some water and boil it till rice cooks"},
+           {"title":"khichdi","Time":40,"Ingredients":"rice, veggie, oil, water","Receipe":"fry veggir and masala for some time, put soaked rice in it. Then put some water and boil it till rice cooks"}]
+    mindex=random.randint(0, len(mdict)-1)
+    mstring="""
+                <!DOCTYPE html>
+                <html>
+                <style>
+                table, th, td {
+                border:1px solid black;
+                }
+                </style>
+                <body>
+                    
+                <h2>A basic HTML table</h2>
+
+                <table style="width:100%">
+                
+    
+                <tr>
+                    <th style="color: blue; border:0px">"""
+    title="Dish : "+mdict[mindex]['title']+" </th></tr>"
+                
+                
+    mstring2="<tr><td>Time</td><td>"+str(mdict[mindex]['Time'])+"sec</td></tr>"
+    mstring3="<tr><td>Ingredients</td><td>"+mdict[mindex]['Ingredients']+"</td></tr>"
+    mstring4="<tr><td>Receipe</td><td>"+mdict[mindex]['Receipe']+"</td></tr>"
+    mstring5="<tr><td><img src='flaskblog\static\profile_pics\default.jpg'></td></tr>"
+    trail="</table><img src='1.jpg'></body></html>"
+    
+    image_file = url_for('static', filename = 'profile_pics/'+str(mindex+1)+'.jpg')
+    print("-=-=-=-=-=-=-=-=-=-=-=")
+    print(image_file)
+    print("-=-=-=-=-=-=-=-=-=-=-=")
+    return render_template('random.html', title = 'Account', image_file = image_file,dishName=mdict[mindex]['title'],Time=mdict[mindex]['Time'],Ingredients=mdict[mindex]['Ingredients'],Receipe=mdict[mindex]['Receipe'])
+
+    return mstring+title+mstring2+mstring3+mstring4+mstring5
+       
+    return render_template('create_post.html', title = "New Post", form = form)

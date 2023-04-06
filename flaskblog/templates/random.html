@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>About Page</h1>
+
+
+
+<!DOCTYPE html>
+<html>
+<style>
+table, th, td {
+border:1px solid black;
+}
+</style>
+<body>
+    
+<h2>A basic HTML table</h2>
+
+<table style="width:100%">
+
+
+<tr>
+    <th style="color: blue; border:0px">Dish : {{dishName}} </th></tr>
+    <tr><td>Time</td><td>{{Time}}</td></tr>
+    <tr><td>Ingredients</td><td>{{Ingredients}}</td></tr>
+    <tr><td>Receipe</td><td>{{Receipe}}</td></tr>
+    <tr><td><img class="rounded-circle account-img" src= " {{ image_file }} " ></td></tr>
+{% endblock content %}
