@@ -40,3 +40,70 @@ def random1():
     return mstring+title+mstring2+mstring3+mstring4+mstring5
        
     return render_template('create_post.html', title = "New Post", form = form)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+
+@app.route("/random", methods = ['GET', 'POST'])
+def random1():
+    
+    mdict=[{"title":"Maggie","Time":10,"Ingredients":"noodle, water, maggie masala","Receipe":"boil water and put ingredients"},
+           {"title":"Jeera rice","Time":20,"Ingredients":"Jeera, rice, water","Receipe":"fry jeera in some oil and put soaked rice in it. Then put some water and boil it till rice cooks"},
+           {"title":"khichdi","Time":40,"Ingredients":"rice, veggie, oil, water","Receipe":"fry veggir and masala for some time, put soaked rice in it. Then put some water and boil it till rice cooks"}]
+    mindex=random.randint(0, len(mdict)-1)
+    mstring="""
+                <!DOCTYPE html>
+                <html>
+                <style>
+                table, th, td {
+                border:1px solid black;
+                }
+                </style>
+                <body>
+                    
+                <h2>A basic HTML table</h2>
+                <table style="width:100%">
+                
+    
+                <tr>
+                    <th style="color: blue; border:0px">"""
+    title="Dish : "+mdict[mindex]['title']+" </th></tr>"
+                
+                
+    mstring2="<tr><td>Time</td><td>"+str(mdict[mindex]['Time'])+"sec</td></tr>"
+    mstring3="<tr><td>Ingredients</td><td>"+mdict[mindex]['Ingredients']+"</td></tr>"
+    mstring4="<tr><td>Receipe</td><td>"+mdict[mindex]['Receipe']+"</td></tr>"
+    mstring5="<tr><td><img src='flaskblog\static\profile_pics\default.jpg'></td></tr>"
+    trail="</table><img src='1.jpg'></body></html>"
+    
+    image_file = url_for('static', filename = 'profile_pics/'+str(mindex+1)+'.jpg')
+    print("-=-=-=-=-=-=-=-=-=-=-=")
+    print(image_file)
+    print("-=-=-=-=-=-=-=-=-=-=-=")
+    return render_template('random.html', title = 'Account', image_file = image_file,dishName=mdict[mindex]['title'],Time=mdict[mindex]['Time'],Ingredients=mdict[mindex]['Ingredients'],Receipe=mdict[mindex]['Receipe'])
+
+    return mstring+title+mstring2+mstring3+mstring4+mstring5
+       
+    return render_template('create_post.html', title = "New Post", form = form)    
+    '''

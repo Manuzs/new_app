@@ -1,16 +1,8 @@
-from flaskblog import app
+from flaskblog import create_app
 
 
 
-
-data = [
-    {"name": "Ranjit","age": 22,"emp":'TCS', "address": "Abad"},
-    {"name": "asmf","age": 32, "emp": "AWS","address": "Abad"},
-    {"name": "dsasit","age": 12, "emp": "Google", "address": "Abad"}
-    ]
-
-
-
+app = create_app()
 
 
 if __name__ == "__main__":
